@@ -1,0 +1,17 @@
+[package]
+name = "svg2image"
+version = "0.1.0"
+authors = ["yuebansanren"]
+keywords = ["svg", "image"]
+license = "MPL-2.0"
+edition = "2018"
+description = "Implementation of various SVG filters."
+categories = ["multimedia::images"]
+
+# workspace = ".."
+[dependencies]
+log = "0.4"
+resvg = { path = "../" }
+usvg = { path = "../usvg", default-features = false }
+image_rs = { package = "image", version = "0.23.9"}
+tiny-skia = "0.5.0"

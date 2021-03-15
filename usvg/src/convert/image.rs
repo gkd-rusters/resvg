@@ -9,7 +9,7 @@ use super::prelude::*;
 
 
 #[derive(Clone, Copy, PartialEq, Debug)]
-enum ImageFormat {
+pub enum ImageFormat {
     PNG,
     JPEG,
     SVG,
@@ -113,10 +113,17 @@ pub fn get_href_data(
         }
     }
 }
+pub fn check_is_svg<P: AsRef<path::Path>>(path: P) -> bool{
+    let ext = utils::file_extension(path.as_ref()).map_or("nosvg".to_string(), |d|d.to_lowercase());
+    if ext == "svg" || ext == "svgz" {
+        return true
+    }
+    false
+}
 
 /// Checks that file has a PNG or a JPEG magic bytes.
 /// Or an SVG(Z) extension.
-fn get_image_file_format(path: &path::Path, data: &[u8]) -> Option<ImageFormat> {
+pub fn get_image_file_format(path: &path::Path, data: &[u8]) -> Option<ImageFormat> {
     let ext = utils::file_extension(path)?.to_lowercase();
     if ext == "svg" || ext == "svgz" {
         return Some(ImageFormat::SVG);

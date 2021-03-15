@@ -19,11 +19,12 @@ mod units;
 mod use_node;
 #[cfg(feature = "text")] mod text;
 
-mod prelude {
+pub mod prelude {
     pub use log::warn;
     pub use svgtypes::{FuzzyEq, FuzzyZero, Length};
     pub use crate::{geom::*, short::*, svgtree::{AId, EId}, Options, IsValidLength};
     pub use super::{SvgNodeExt, State};
+    pub use super::image::{get_image_file_format, get_href_data, ImageFormat, check_is_svg};
 }
 use self::prelude::*;
 
@@ -94,7 +95,6 @@ fn resolve_svg_size(
         view_box: Rect::new(0.0, 0.0, 100.0, 100.0).unwrap(),
         opt,
     };
-
     let def = Length::new(100.0, Unit::Percent);
     let width: Length = svg.attribute(AId::Width).unwrap_or(def);
     let height: Length = svg.attribute(AId::Height).unwrap_or(def);
@@ -106,7 +106,7 @@ fn resolve_svg_size(
         //       which is currently impossible
         return Err(Error::InvalidSize);
     }
-
+    // println!("{:?}", view_box);
     let size = if let Some(vbox) = view_box {
         state.view_box = vbox;
 

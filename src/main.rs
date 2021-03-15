@@ -424,9 +424,9 @@ fn parse_args() -> Result<Args, String> {
 
     let mut fit_to = usvg::FitTo::Original;
     if let Some(w) = args.width {
-        fit_to = usvg::FitTo::Width(w);
+        fit_to = usvg::FitTo::Width(w as _);
     } else if let Some(h) = args.height {
-        fit_to = usvg::FitTo::Height(h);
+        fit_to = usvg::FitTo::Height(h as _);
     } else if let Some(z) = args.zoom {
         fit_to = usvg::FitTo::Zoom(z);
     }

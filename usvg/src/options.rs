@@ -13,11 +13,12 @@ pub enum FitTo {
     /// Keep original size.
     Original,
     /// Scale to width.
-    Width(u32),
+    Width(f64),
     /// Scale to height.
-    Height(u32),
+    Height(f64),
     /// Zoom by factor.
     Zoom(f32),
+    Transform(f64, f64),
 }
 
 impl FitTo {
@@ -31,15 +32,18 @@ impl FitTo {
             }
             FitTo::Width(w) => {
                 let h = (w as f64 * sizef.height() / sizef.width()).ceil();
-                ScreenSize::new(w, h as u32)
+                ScreenSize::new(w as _, h as u32)
             }
             FitTo::Height(h) => {
                 let w = (h as f64 * sizef.width() / sizef.height()).ceil();
-                ScreenSize::new(w as u32, h)
+                ScreenSize::new(w as u32, h as _)
             }
             FitTo::Zoom(z) => {
                 Size::new(sizef.width() * z as f64, sizef.height() * z as f64)
                     .map(|s| s.to_screen_size())
+            },
+            FitTo::Transform(x,y) => {
+                Size::new(x,y).map(|s| s.to_screen_size())
             }
         }
     }
@@ -121,6 +125,7 @@ pub struct Options {
     /// Default: empty
     #[cfg(feature = "text")]
     pub fontdb: fontdb::Database,
+
 }
 
 impl Options {

@@ -193,6 +193,7 @@ pub use crate::error::*;
 pub use crate::geom::*;
 pub use crate::options::*;
 pub use crate::tree::*;
+pub use crate::convert::prelude::{get_image_file_format, ImageFormat, check_is_svg};
 
 
 /// Checks that type has a default value.
